@@ -1,0 +1,94 @@
+#include "SeqList.h"
+void SeqListInit(SL* ps)//初始化
+{
+	/*s.size = 0;
+	s.a = NULL;
+	s.capacity = 0;*/
+	ps->a = (SLDataType*)malloc(sizeof(SLDataType) * 4);
+	if (ps->a == NULL)
+	{
+		printf("申请内存失败\n");
+		exit(-1);//直接退出
+	}
+		ps->size= 0;
+		ps->capacity = 4;
+	
+}
+
+void SeqListCheckCapacity(SL* ps)
+{
+	if (ps->size >= ps->capacity)
+	{
+		ps->capacity *= 2;
+		ps->a = (SLDataType*)realloc(ps->a, sizeof(SLDataType) * ps->capacity);
+		if (ps->a == NULL)
+		{
+			printf("扩容失败/n");
+			exit(-1);
+		}
+	}
+
+
+
+
+}
+void SeqListPrint(SL* ps)
+{
+	assert(ps);
+	for (int i = 0; i < ps->size; ++i)
+	{
+		printf("%d", ps->a[i]);
+		
+	}
+	printf("\n");
+}
+//尾插尾删，头插头删
+void SeqListPushBack(SL* ps, SLDataType x)
+{
+	SeqListCheckCapacity(ps);
+	assert(ps);//指针不能为空
+	//如果满了需要增容
+	//一般增容选择增二倍，三倍
+	
+	ps->a[ps->size] = x;//指针访问结构体元素
+	ps->size++;
+	
+//越界一定有问题，没越界不一定没问题
+
+
+
+}
+void SeqListPopBack(SL* ps)
+{
+	assert(ps);
+	ps->size--;
+}
+void SeqListPushFront(SL* ps, SLDataType x)
+{   
+	SeqListCheckCapacity(ps);
+	int end = ps->size - 1;
+	while (end >= 0)
+	{
+		ps->a[end + 1] = ps->a[end];
+		--end;
+	}
+	ps->a[0] = x;
+	ps->size++;
+
+}
+void SeqListPopFront(SL* ps)
+{
+	assert(ps);
+	int start = 0;
+	while (start <=ps-> size - 2)
+	{
+		ps->a[start] = ps->a[start + 1];
+		++start;
+	}
+	ps->size--;
+
+}
+//任意位置插入删除
+void SeqListInsert(SL* ps, int post, SLDataType x);
+void SeqListErase(SL* ps, int pos);
+
