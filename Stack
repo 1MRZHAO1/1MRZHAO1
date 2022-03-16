@@ -1,0 +1,134 @@
+Stack.h
+#pragma once
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <assert.h>
+typedef int STDataType;
+typedef struct Stack
+{
+	STDataType* a;
+	int top;//初始top给0，指向栈顶后一个元素
+	int capacity;
+	
+
+
+}ST;
+//初始化
+void StackInit (ST* ps);
+//删除
+void StackDestory(ST* ps);
+//栈顶插入删除数据
+//入栈
+void StackPush(ST* ps,STDataType* x);
+//出栈
+void StackPop(ST* ps);
+//取栈顶数据
+STDataType  StackTop(ST* ps);
+//栈的大小
+int StackSize(ST* ps);
+//栈是否为空
+bool StackEmpty(ST* ps);
+
+Stack.c
+#include "Stack.h"
+//初始化
+void StackInit(ST* ps)
+{
+	ps->a =(STDataType*)malloc(sizeof(STDataType) * 4);
+	if (ps->a== NULL)
+	{
+		printf("realloc fail\n");
+		exit(-1);
+	}
+	ps->capacity = 4;
+	ps->top = 0;
+}
+//删除
+void StackDestory(ST* ps)
+{
+	assert(ps);
+	free(ps->a);
+	ps->a = NULL;
+	ps->top = ps->capacity = 0;
+
+}
+//栈顶插入删除数据
+//入栈
+void StackPush(ST* ps, STDataType* x)
+{
+	assert(ps);
+	if (ps->top == ps->capacity)
+	{
+		STDataType* tmp = (STDataType*)realloc(ps->a, ps->capacity * 2 * sizeof(STDataType));
+		if (tmp == NULL)
+		{
+			printf("realloc fail\n");
+			exit(-1);
+		}
+		else
+		{
+			ps->a = tmp;
+			ps->capacity *= 2;
+
+
+		}
+	}
+
+	ps->a[ps->top] = x;
+	ps->top++;//栈存入第一个数据时，top就已经从0变为了1
+
+
+}
+//出栈
+void StackPop(ST* ps)
+{
+	assert(ps);
+	//栈空了，调用Pop，直接终止程序，报错
+	assert(ps->top > 0);
+	ps->top--;
+
+}
+//取栈顶数据
+STDataType  StackTop(ST* ps)
+{
+	assert(ps);
+	//栈空了，调用top，直接终止程序，报错
+	assert(ps->top > 0);
+	return ps->a[ps->top - 1];
+
+}
+
+//栈的大小
+int StackSize(ST* ps)
+{
+	assert(ps);
+	return ps->top;
+
+}
+//栈是否为空
+bool StackEmpty(ST* ps)//bool布尔变量，值只返回true/false
+{
+	assert(ps);
+	return ps->top == 0;
+
+}
+
+
+test.c
+#include "Stack.h"
+int main()
+{
+	ST st;
+	StackInit(&st);
+	StackPush(&st, 1);
+	StackPush(&st, 3);
+	StackPush(&st, 2);
+	StackPush(&st, 4);
+	while (!StackEmpty(&st))
+	{
+		printf("%d", StackTop(&st));
+		StackPop(&st);
+	}
+
+}
