@@ -53,6 +53,37 @@ void PostOder(BTNode* root)//后序遍历
 	printf("%c", root->data);
 	printf(" ");
 }
+//求树的结点数
+//先用遍历的思想写一个
+//void TreeSize(BTNode* root,int* psize)计数算结点数
+//{
+//	if (root == NULL)
+//	{
+//		return;
+//	}
+//	++(*psize);
+//	TreeSize(root->left,psize);
+//	TreeSize(root->right,psize);
+//	return;
+//}
+//再用分治的思想写一个，大问题分成小问题
+int TreeSize(BTNode* root)
+{
+	return root == NULL ? 0 : TreeSize(root->left)+TreeSize(root->right)+1;//后序思维来写
+}
+
+//求叶子结点的个数
+int TreeLeafSize(BTNode* root)
+{                     
+//return TreeLeafSize(root->left)==NULL&&TreeLeafSize(root->right)==NULL ? 1 :TreeLeafSize(root->left) + TreeLeafSize(root->right);
+//这种写法排除不了单侧为空的情况
+//会产生NULL+数字的情况
+	if (root == NULL)//针对单侧为空的情况
+		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return 1;
+	return TreeLeafSize(root->left) + TreeLeafSize(root->right);
+}
 #include "Tree.h"
 int main()
 {
