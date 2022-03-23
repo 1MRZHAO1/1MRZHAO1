@@ -84,6 +84,35 @@ int TreeLeafSize(BTNode* root)
 		return 1;
 	return TreeLeafSize(root->left) + TreeLeafSize(root->right);
 }
+//前序，中序，后序其实也是深度优先遍历   深度一般选择递归
+//层序遍历 广度优先遍历
+//写二叉树的层序遍历
+//借助队列的先进先出
+//核心思路是上面一层带下面一层
+
+void LevelOder(BTNode* root)
+{
+	Queue q;
+	QueueInit(&q);
+	if (root)
+		QueuePush(&q, root);
+	while (!QueueEmpty(&q))
+	{
+		BTNode* front = QueueFront(&q);
+		QueuePop(&q);
+		printf("%c", front->data);
+		if (front->left)
+		{
+			QueuePush(&q, front->left);
+		}
+		if (front->right)
+		{
+			QueuePush(&q, front->right);
+		}
+	}
+	printf("\n");
+	QueueDestory(&q);
+}
 #include "Tree.h"
 int main()
 {
