@@ -156,3 +156,41 @@ int main()
 
 	return 0;
 }
+leetcode 二叉树前序遍历
+c/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+ int TreeSize(struct TreeNode* root)
+ {
+     return root==NULL?0:TreeSize(root->left)+TreeSize(root->right)+1;//后序遍历思想
+ }
+void _preorder(struct TreeNode* root, int* a,int*pi)
+{
+  if(root==NULL)
+  return;
+
+  a[(*pi)]=root->val;
+  ++(*pi);
+  _preorder(root->left,a,pi);
+  _preorder(root->right,a,pi);//递归这里是调用函数,但是内部参数还是用函数定义里的形参
+  
+}
+int* preorderTraversal(strut TreeNode* root, int* returnSize){
+    
+    int size=TreeSize(root);
+      int i=0;   
+     int* a=(int*)malloc(size*sizeof(int));
+     _preorder(root,a,&i);
+     *returnSize=i;
+     return a;
+}              
