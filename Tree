@@ -244,5 +244,5 @@ bool isBalanced(struct TreeNode* root){
     return true;
     int leftDepth=maxDepth(root->left);
     int rightDepth=maxDepth(root->right);
-    return abs(leftDepth-rightDepth)<2&&isBalanced(root->left)&&isBalanced(root->right);//abs()是求绝对值函数
+    return abs(leftDepth-rightDepth)<2&&isBalanced(root->left)&&isBalanced(root->right);//abs()是求绝对值函数//其实是用前序遍历来写
 }
