@@ -1,0 +1,46 @@
+#include <stdio.h>
+void PrintArry(int* a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d", a[i]);
+	}
+	printf("\n");
+}
+//插入排序
+//假设都用升序来实现,降序就是反过来
+void InsertSort(int* a, int n);
+void InsertSort(int* a, int n)
+{   //插入思想为假设[0---end]有序，end+1的位置插入进去，让[0----end+1]也有序
+	for (int i = 0; i < n - 1; ++i)
+	{
+		int end = 0;
+		int tmp = a[end + 1];
+		while (end >= 0)
+		{
+			if (a[end] < tmp)
+			{
+				a[end + 1] = a[end];
+				a[end] = tmp;
+				end--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		a[end + 1] = tmp;
+	}
+}
+
+void TestInsertSort()
+{
+	int a[] = { 3,2,7,8,6,1,9,4,0 };
+	InsertSort(a, sizeof(a) / sizeof(int));
+	PrintArry(a, sizeof(a) / sizeof(int));
+}
+int main()
+{
+	TestInsertSort();
+	return 0;
+}
