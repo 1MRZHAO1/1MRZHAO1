@@ -8,13 +8,28 @@ void PrintArry(int* a, int n)
 	printf("\n");
 }
 //插入排序
+// 时间复杂度：时间复杂度永远要看最坏的情况
+// 什么情况下最坏？
+// 逆序其实是最坏的情况
+// 9 | 8 7 6 5 4 3 2 1  8向前挪1次
+// 8 9 | 7 6 5 4 3 2 1  7要向前挪2次
+// ............
+// 依次类推，最后一个数需要向前挪 N-1 次
+// 
+// 等差数列  1+2+3+4+5+........+N-1=N^2/2
+// 时间复杂度为O（N^2）
+// 
+// 什么情况下最好？
+// 顺序有序，时间复杂度为O（N)
+// 
 //假设都用升序来实现,降序就是反过来
+
 void InsertSort(int* a, int n);
 void InsertSort(int* a, int n)
 {   //插入思想为假设[0---end]有序，end+1的位置插入进去，让[0----end+1]也有序
-	for (int i = 0; i < n - 1; ++i)
+	for (int i = 0; i < n - 1; ++i)//外层循环控制end防止出界
 	{
-		int end = 0;
+		int end = i;
 		int tmp = a[end + 1];
 		while (end >= 0)
 		{
@@ -26,12 +41,35 @@ void InsertSort(int* a, int n)
 			}
 			else
 			{
-				break;
+				break;//打断去赋值
 			}
 		}
-		a[end + 1] = tmp;
+		a[end + 1] = tmp;//这种写法刚好针对两种情况，一种是tmp的值在循环里找到一个比自己小的然后放在它后面，或者tmp本身是最小的，到达下标0处直接赋值即可
 	}
 }
+
+
+//希尔排序
+//直接插入排序上的优化
+ 
+void ShellSort()
+{
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
 
 void TestInsertSort()
 {
@@ -44,3 +82,4 @@ int main()
 	TestInsertSort();
 	return 0;
 }
+
