@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 void PrintArry(int* a, int n)
 {
 	for (int i = 0; i < n; i++)
@@ -21,7 +23,7 @@ void PrintArry(int* a, int n)
 // 
 // 什么情况下最好？
 // 顺序有序，时间复杂度为O（N)
-// 
+// 时间复杂的计算技巧是尽量从实际对序列的操作来考虑
 //假设都用升序来实现,降序就是反过来
 
 void InsertSort(int* a, int n);
@@ -33,7 +35,7 @@ void InsertSort(int* a, int n)
 		int tmp = a[end + 1];
 		while (end >= 0)
 		{
-			if (a[end] < tmp)
+			if (a[end] > tmp)
 			{
 				a[end + 1] = a[end];
 				a[end] = tmp;
@@ -45,23 +47,48 @@ void InsertSort(int* a, int n)
 			}
 		}
 		a[end + 1] = tmp;//这种写法刚好针对两种情况，一种是tmp的值在循环里找到一个比自己小的然后放在它后面，或者tmp本身是最小的，到达下标0处直接赋值即可
-	}
+	} 
 }
 
 
 //希尔排序
 //直接插入排序上的优化
- 
-void ShellSort()
+ //我们第一步要做的是预处理，即先进行分组排序，让数组先接近有序
+ // 用gap划分间隔，使大的数更快的排到后面，小的数更快地排到前面
+ // gap越大预排完越不接近有序
+ // 
+//第二部是直接插入排序
+void ShellSort(int* a, int n)
 {
+	int gap = n;
+	while (gap > 1)
+	{
+		gap = gap / 3 + 1;
+		//把间隔为gap的多组数据同时排
+		for (int i = 0; i < n - gap; ++i)
+		{
+			int end = i;
+			int tmp = a[end + gap];
+			while (end >= 0)
+			{
+				if (a[end] > tmp)
+				{
+					a[end + gap] = a[end];
+					end -= gap;
+				}
+				else
+				{
+					break;
+				}
+			}
+			a[end + gap] = tmp;
+		}
+
+		//最后落到的位置是n-gap-1
 
 
 
-
-
-
-
-
+	}
 
 
 
@@ -71,15 +98,16 @@ void ShellSort()
 
 
 
-void TestInsertSort()
+void TestShellSort()
 {
 	int a[] = { 3,2,7,8,6,1,9,4,0 };
-	InsertSort(a, sizeof(a) / sizeof(int));
+	ShellSort(a, sizeof(a) / sizeof(int));
 	PrintArry(a, sizeof(a) / sizeof(int));
 }
 int main()
 {
-	TestInsertSort();
+	TestShellSort();
 	return 0;
 }
+
 
