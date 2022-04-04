@@ -104,9 +104,36 @@ void TestShellSort()
 	ShellSort(a, sizeof(a) / sizeof(int));
 	PrintArry(a, sizeof(a) / sizeof(int));
 }
+
+void TestTop()
+{
+	srand(time(0));
+	const int N = 100000;
+	int* a1 = (int*)malloc(sizeof(int) * N);
+	int* a2 = (int*)malloc(sizeof(int) * N);
+	for (int i = 0; i < N; ++i)
+	{
+		a1[i] = rand();
+		a2[i] = a1[i];
+	}
+
+	int begin1 = clock();//系统运行到此处所花的毫秒数
+	InsertSort(a1, N);
+	int end1 = clock();
+
+
+	int begin2 = clock();
+	ShellSort(a2, N);
+	int end2 = clock();
+
+	printf("InserSort:%d\n", end1 - begin1);
+	printf("ShellSort:%d\n", end2 - begin2);
+
+}
 int main()
 {
 	TestShellSort();
+	TestTop();
 	return 0;
 }
 
