@@ -1,0 +1,76 @@
+#include<stdio.h>
+void HeapSort(int* a, int n);
+void PrintfArry(int* a, int n);
+void TestHeapSort()
+{
+	int a[] = {3,5,2,7,8,6,1,9,4,0};
+	HeapSort(a, sizeof(a) / sizeof(int));
+	PrintfArry(a, sizeof(a) / sizeof(int));
+
+}
+
+void PrintfArry(int* a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d",a[i]);
+	}
+}
+
+void Swap(int* a, int* b)
+{
+	
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+
+//向下调整算法,前提条件是左右子树都为大堆
+void AdjustDwon(int* a,int n, int root)//n为排序元素的个数
+{
+	int parent = root;
+	int child = parent * 2 + 1;//默认小的那个是左孩子
+	while (child < n)//达到叶子结点不需要再向下再比较，再比较，数组就越界了
+	{
+		//1.选出左右孩子中最大的一个
+		if (child < n - 1 && a[child + 1] > a[child])//而且还要要保证，只有一个左结点没有右结点的情况不会越界
+		{
+			child += 1;
+		}
+		if (a[child] >a[parent])//只有一个左结点时会直接跳过与左结点的对比，直接开始与父亲结点的对比
+		{
+			Swap(&a[child], &a[parent]);
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		else {
+
+			break;//上来结点就与左右子树构成了小堆，直接不用动
+
+		}
+		//小堆变大堆就是简单颠倒一下符号便可
+	}
+}
+void HeapSort(int* a, int n)
+{
+//把数组建成堆，建堆
+	
+	for (int i = (n - 1 - 1) / 2; i >= 0; --i)
+	{
+		AdjustDwon(a, n, i);
+	}
+	//排升序，建大堆;
+	int end = n - 1;
+	while (end > 0)
+	{
+		Swap(&a[0], &a[end]);
+		AdjustDwon(&a[0], end, 0);
+		--end;
+	}
+}
+
+int main()
+{
+	TestHeapSort();
+}
