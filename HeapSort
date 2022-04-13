@@ -69,8 +69,51 @@ void HeapSort(int* a, int n)
 		--end;
 	}
 }
+//直接选择排序
+//在元素集合arry[i]---arry[n-1]中选择关键码最大的数据元素
+//若它不是这组元素中的最后一个元素，则将它与这组元素中的最后一个元素交换
+//在剩余的arry[i]---arry[n-2]集合中，重复上述步骤，直到集合剩余1个元素
+
+void SelectSort(int* a, int n)
+{
+	int begin = 0, end = n-1;
+	while (begin < end)
+	{
+		int mini = begin;
+		int maxi = end;
+		for (int i= begin; i <=end; ++i)
+		{
+			if (a[i] > a[maxi])
+			{
+				maxi = i;
+			}
+			if (a[i] < a[mini])
+			{
+				mini = i;
+			}
+		}
+		Swap(&a[mini], &a[begin]);
+		//如果begin跟maxi重叠，需要修正一下maxi的位置
+		if (begin == maxi)
+		{
+			maxi = mini;
+		}
+		Swap(&a[maxi], &a[end]);
+		begin++;
+		end--;
+	}
+	if(be)
+	
+}
+void TestSelectSort()
+{
+	int a[] = { 3,5,2,7,8,6,1,9,4,0 };
+	SelectSort(a, sizeof(a) / sizeof(int));
+	PrintfArry(a, sizeof(a) / sizeof(int));
+
+}
 
 int main()
 {
-	TestHeapSort();
+	TestSelectSort();
 }
