@@ -135,15 +135,51 @@ void BubbleSort(int* a, int n)
 			break;
 	}
 }
-void TestBubbleSort()
+void QuickSort(int* a, int left,int right)
+{   
+	if (left >= right)//left>right表示没有左区间存在，left=right表示只有一个值
+	{
+		return;
+	}
+	int begin = left, end = right;
+	int pivot = begin;
+	int key = a[begin];
+	while (begin < end)
+	{
+		//选择从左端开始做坑
+		//右边找小放到左边
+		while (begin < end && a[end] >= key)
+		{
+			end--;//end持续--可能会导致end到达到begin前面发生交错，把已经处于正确位置的数，又扔到后面的坑中所以while条件里要加一条begin<end
+		}
+		//选出小的放到左边的坑中，自己就变成了新的坑位
+		a[pivot] = a[end];
+		pivot = end;
+		//key的左边目标是全是小于key，所以从左边找大，放到右边
+		while (begin < end && a[begin] <= key)
+		{
+			begin++;
+		}
+		a[pivot] = a[begin];
+		pivot = begin;//我成为新的坑
+	}
+	pivot = begin;
+	a[pivot] = key;
+	//left区间           坑  pivot         right区间
+	//[left,pivot-1]       pivot           [pivot+1,right]
+	//左子区间和右子区间有序，我们就有序了，如何让他们有序呢?  分治递归  二叉树前序遍历，根，左子树，右子树
+	QuickSort(a, left, pivot - 1);
+	QuickSort(a, pivot+1, right);
+}
+void TestQuickSort()
 {
 	int a[] = { 3,5,2,7,8,6,1,9,4,0 };
-	BubbleSort(a, sizeof(a) / sizeof(int));
+	QuickSort(a, 0,sizeof(a) / sizeof(int)-1);
 	PrintfArry(a, sizeof(a) / sizeof(int));
 
 }
 
 int main()
 {
-	TestBubbleSort();
+	TestQuickSort();
 }
