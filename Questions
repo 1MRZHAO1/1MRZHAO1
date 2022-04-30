@@ -119,3 +119,101 @@ int main()
     }
     return 0;
 }
+
+
+KiKi学习了结构体和指针，他了解了结构体类型可以定义包含多个不同类型成员，而指针本质是内存地址，
+是引用数据的另外一种方式。现在他想将多个输入的数据通过结构体和指针的方式连接在一起，
+形成一个单向链表，即：每个结点是结构体类型，包括整型数据成员（data）和结构体指针类型成员（next），
+每个结点的指针部分指向下一个输入的结点。具体建立过程如下：先输入n个整数，按照数据输入的顺序建立一个带头结点的单链表
+，再输入一个数据m,将单链表中的值为m的结点全部删除。输出删除后的单链表信息。
+#include <stdio.h>
+//链表是一种数据结构，数据结构是描述数据在内存中的存储方式
+//每一个结点，包含两部分，第一部分，包含数据叫做数据域，第二部分包含地址，叫做指针域
+//链表结点的定义
+struct Node
+{ 
+  int data;//数据域
+  struct Node* next;//指针域
+     
+};//struct 后面一定不要忘了加；分号
+int main()
+{
+    struct Node* list=NULL;//指向链表的指针，先置成空指针
+    //输入n
+    int n=0;
+    scanf("%d",&n);
+    int i=0;
+    int m=0;
+    int d=0;
+    //接受n个数字并尾部插入到单链表中
+    struct Node* tail=NULL;//这里再定义一个tail指针,tail指针每次记录上一个结点的地址，方便你将上一个结点的next赋值，方便我们往下写，虽然我平时不喜欢这样写
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&m);
+        struct Node* pn=(struct Node*)malloc(sizeof(struct Node));
+        pn->data=m;
+        pn->next=NULL;
+        //分为插入第一个元素
+        if(list==NULL)
+        {
+          list=pn;
+          tail=pn;
+        }
+        //插入不是第一个元素
+        else
+        {
+            tail->next=pn;
+            tail=pn;//把tail传递下去z
+        }
+    }
+    //接收要删除的元素
+    scanf("%d",&d);
+    //删除链表中指定的元素
+    struct Node* cur=list;
+    struct Node* prev=NULL;
+    while(cur!=NULL)//啥都没存直接不进入
+    {   
+        //找到了等于d的data
+    if(cur->data==d)
+        {
+           //删除
+           //删除的如果是第一个结点
+           struct Node* pd=cur;
+            if(cur==list)
+           {    
+               list=list->next;
+                cur=list;
+           }
+            else
+            {
+                prev->next=cur->next;
+                cur=prev->next;
+            }
+            free(pd);
+            n--;//结点个数减少
+        }
+     else
+     {  
+             prev=cur;
+             cur=cur->next;
+     }
+    }
+    //输出链表
+    printf("%d\n",n);
+    cur=list;
+    while(cur!=NULL)
+    {
+        printf("%d ",cur->data);
+        cur=cur->next;
+    }
+    //释放链表
+    cur=list;
+    struct Node* del=NULL;
+    while(cur!=NULL)
+    {
+       del=cur;
+       cur=cur->next;
+       free(del);
+    }
+    return 0;
+}
