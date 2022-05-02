@@ -1,6 +1,33 @@
 #include<stdio.h>
+#include<time.h>
+
+
 void HeapSort(int* a, int n);
 void PrintfArry(int* a, int n);
+void InsertSort(int* a, int n);
+void InsertSort(int* a, int n)
+{   //插入思想为假设[0---end]有序，end+1的位置插入进去，让[0----end+1]也有序
+	for (int i = 0; i < n - 1; ++i)//外层循环控制end防止出界
+	{
+		int end = i;
+		int tmp = a[end + 1];
+		while (end >= 0)
+		{
+			if (a[end] > tmp)
+			{
+				a[end + 1] = a[end];
+				a[end] = tmp;
+				end--;
+			}
+			else
+			{
+				break;//打断去赋值
+			}
+		}
+		a[end + 1] = tmp;//这种写法刚好针对两种情况，一种是tmp的值在循环里找到一个比自己小的然后放在它后面，或者tmp本身是最小的，到达下标0处直接赋值即可
+	}
+}
+
 void TestHeapSort()
 {
 	int a[] = {3,5,2,7,8,6,1,9,4,0};
@@ -135,12 +162,52 @@ void BubbleSort(int* a, int n)
 			break;
 	}
 }
+
+//三数取中,三个数中取中间那个
+int GetMidIndex(int* a, int left, int right)
+{
+	int mid = (left + right) >> 1;//下标取平均，这样写效率更高一点
+	if (a[left] < a[mid])
+	{
+		if (a[mid] < a[right])
+		{
+			return  mid;
+		}
+		else if (a[right] > a[left])
+		{
+			return right;
+		}
+		else
+		{
+			return left;
+		}
+	}
+	else//a[left]>a[mid]
+	{
+		if (a[mid] > a[right])
+		{
+			return mid;
+
+		}
+		else if (a[right] > a[left])
+		{
+			return left;
+		}
+		else
+		{
+			return right;
+		}
+	}
+}
 void QuickSort(int* a, int left,int right)
 {   
 	if (left >= right)//left>right表示没有左区间存在，left=right表示只有一个值
 	{
 		return;
 	}
+	int index= GetMidIndex(a, left, right);//找出中间值的下标
+	//为了不打乱下面的代码结构，我们选择将，中间值下标找出来，并将该处存放的数值与开头存放的数值互换
+	Swap(&a[left], &a[index]);
 	int begin = left, end = right;
 	int pivot = begin;
 	int key = a[begin];
@@ -159,7 +226,8 @@ void QuickSort(int* a, int left,int right)
 		while (begin < end && a[begin] <= key)
 		{
 			begin++;
-		}
+		}		
+
 		a[pivot] = a[begin];
 		pivot = begin;//我成为新的坑
 	}
@@ -168,8 +236,48 @@ void QuickSort(int* a, int left,int right)
 	//left区间           坑  pivot         right区间
 	//[left,pivot-1]       pivot           [pivot+1,right]
 	//左子区间和右子区间有序，我们就有序了，如何让他们有序呢?  分治递归  二叉树前序遍历，根，左子树，右子树
-	QuickSort(a, left, pivot - 1);
-	QuickSort(a, pivot+1, right);
+	if (pivot - 1 - left > 10)
+	{
+		QuickSort(a, left, pivot - 1);
+	}
+	else
+	{
+		InsertSort(a + left, pivot - 1 - left + 1);//InsertSort函数要求传入，数组的地址和元素个数
+	}
+	if (right - (pivot + 1) > 10)
+	{
+		QuickSort(a, pivot+1,right);
+	}
+	else
+	{
+		InsertSort(a + pivot + 1, right - (pivot + 1) + 1);
+	}
+}
+
+void TestTop()
+{
+	srand(time(0));
+	const int N = 100000;
+	int* a1 = (int*)malloc(sizeof(int) * N);
+	int* a2 = (int*)malloc(sizeof(int) * N);
+	for (int i = 0; i < N; ++i)
+	{
+		a1[i] = rand();
+		a2[i] = a1[i];
+	}
+
+	int begin1 = clock();//系统运行到此处所花的毫秒数
+	InsertSort(a1, N);
+	int end1 = clock();
+
+
+	int begin2 = clock();
+	QuickSort(a1, 0, N);
+	int end2 = clock();
+
+	printf("InserSort:%d\n", end1 - begin1);
+	printf("QuickSort:%d\n", end2 - begin2);
+
 }
 void TestQuickSort()
 {
@@ -182,4 +290,12 @@ void TestQuickSort()
 int main()
 {
 	TestQuickSort();
+	TestTop();
 }
+
+
+
+
+
+
+
