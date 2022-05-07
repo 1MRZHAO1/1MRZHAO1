@@ -428,3 +428,57 @@ int main()
     printf("\n%d\n", count);
     return 0;
 }
+链接：https://www.nowcoder.com/questionTerminal/e09de1fc11db4a438cf8f0668848660d
+来源：牛客网
+
+在庆祝祖国母亲70华诞之际，老师给小乐乐出了一个问题。大家都知道China的英文缩写是CHN，那么给你一个字符串s，你需要做的是统计s中子序列“CHN”的个数。
+子序列的定义：存在任意下标a < b < c，那么“s[a]s[b]s[c]”就构成s的一个子序列。如“ABC”的子序列有“A”、“B”、“C”、“AB”、“AC”、“BC”、“ABC”。
+
+
+
+输入描述:
+输入只包含大写字母的字符串s。(1 ≤ length ≤ 8000)
+
+
+输出描述:
+输出一个整数，为字符串s中子序列“CHN”的数量。
+示例1
+输入
+CCHNCHN
+输出
+7
+示例2
+输入
+CCHNCHNCHNCHN
+输出
+30#include <stdio.h>
+int main()
+{
+    char arr[8000]={0};
+    scanf("%s",&arr);
+    //统计子串CHN的个数
+    long long c=0;
+    long long  ch=0;
+   long long  chn=0;
+    char* p=arr;//下面将用指针来遍历字符数组
+    while(*p)//当p到达斜杠0，\0的值为0，会自动结束循环
+    {
+        if(*p=='C')//记录前面有多少个c
+        {
+            c++;
+        }
+        if(*p=='H')
+        {
+            ch+=c;//前面有几个c，就能和后面的这一个h，组成多少个ch，然后再次进入时说明后面又出现了一个h，那么前面的c的个数就要再次被累加一次
+        }
+        if(*p=='N')
+        {
+            chn+=ch;//前面有多少个ch，就能和后面的n，组成多少个chn,再次碰到的时候说明后面又出显了一个n，累加
+            //对于前面ch，ch，n，ch，n，这种写法也能很好的满足，即ch的数量只和h前面c出现的个数有关，chn的数量只和n前面出现的ch的个数有关
+        }
+        p++;//核心在于，遇到h，要知道前面有多少个c，ch不断+=c是为了算ch的一个总数，ch是逐渐累计的值，遇到n，要知道前面有多少个ch
+    }
+    
+    printf("%lld",chn);
+return 0;
+}
