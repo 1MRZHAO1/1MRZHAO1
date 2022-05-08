@@ -482,3 +482,68 @@ int main()
     printf("%lld",chn);
 return 0;
 }
+
+
+
+设计一个猜数字游戏
+void menu()
+{
+	printf("**************************\n");
+	printf("***1.play 0.exit**********\n");
+	printf("**************************\n");
+}
+void game()
+{   
+	int ret = 0;
+	int guess = 0;
+	//1.生成一个随机数
+	ret=rand()%100;//生成1-100的随机数，随机数%100只能得到0-99的数字 
+	/*printf("%d\n", ret);*/
+	//2.猜数字
+	while (1)
+	{
+		printf("猜数字");
+		scanf_s("%d", &guess);
+		if (guess > ret)
+		{
+			printf("猜大了");
+		}
+		else if (guess < ret)
+		{
+			printf("猜小了");
+		}
+		else
+		{
+			printf("猜对了");
+			break;
+		}
+
+	}
+}
+int main()
+{
+	//使用时间戳，设置随机起点
+	srand((unsigned int)time(NULL));
+	int input = 0;
+	do//上来肯定要执行一次，所以选择do while循环
+	{
+		menu();
+		printf("请选择");
+		scanf_s("%d", &input);
+		switch (input)
+		{
+		case 1: 
+			game();//猜数字游戏
+			break;
+		case 0:
+			printf("退出游戏");
+			break;
+		default:
+			printf("选择错误");
+			break;
+		}
+
+	} 
+	while (input);
+		return 0;
+}
