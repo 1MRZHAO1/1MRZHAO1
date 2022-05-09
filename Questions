@@ -547,3 +547,44 @@ int main()
 	while (input);
 		return 0;
 }
+/int main()
+//{
+//	char arr[] = "hello world";
+//	memset(arr, '*', 5);
+//	printf("%s", arr);
+//	return 0;
+//}
+
+//定义函数
+// int get_max(int x, int y)
+//{
+//	return x > y ? x : y;//x>y成立吗？，若成立返回x，若不成立返回y
+//}
+//
+//int main()
+//{
+//	int a = 10;
+//	int b = 20;
+//	//函数的使用
+//	int max=get_max(a,b);
+//	max = get_max(100, 200);//也可以直接传入整型数值
+//	printf("max=%d\n", max);
+//}
+//
+//void Swap(int x, int y)//void为无类型，表示没有返回值
+//{
+//	int tmp = 0;
+//	tmp = x;
+//	x = y;
+//	y = tmp;
+//}
+//int main()
+//{
+//
+//	int a = 10;
+//	int b = 20;
+//	Swap(a, b);
+//	printf("%d %d", a, b);//这是一种典型的错误写法
+//	return 0;
+//}
+//
